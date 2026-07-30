@@ -1,0 +1,33 @@
+project:
+  name: TRACE
+  workspace: .
+
+paths:
+  input_images: data/input
+  keypoints: data/intermediate/keypoints
+  drag_selection: data/intermediate/drag_selection
+  output_images: data/output
+
+stage_1_keypoint_detection:
+  checkpoint: null
+  device: cuda:0
+  input_size: 512
+
+stage_2_drag_auto:
+  selection_threshold: 90
+  working_size: 512
+
+stage_3_drag_diffusion:
+  model: runwayml/stable-diffusion-v1-5
+  prompt: binary image
+  train_lora: true
+  inversion_strength: 0.9
+  latent_lr: 0.01
+  lam: 5
+  shift_pixels: 20
+  lora_steps: 80
+  lora_lr: 0.001
+  lora_batch_size: 2
+  lora_rank: 16
+  requested_drag_steps: 1000
+  effective_drag_steps: 100
